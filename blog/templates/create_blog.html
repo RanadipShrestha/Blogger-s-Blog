@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Create a New Blog</h2>
+  <div class="flex justify-center">
+    <button onclick="showPostModal()" action="{% url '' %}" name="create_post" class="text-center flex items-center py-3 px-6 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 transition duration-300">
+      <i class="fas fa-plus mr-2"></i>Create Post
+    </button>
+  </div>
+  <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Create Blog</button>
+  </form>
+{% endblock %}

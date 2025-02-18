@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Page</title>
+    <link rel="stylesheet" href="{% static '/assets/css/about.css' %}">
+</head>
+{% include "header.html"%}
+<body>
+
+    <!-- About Section -->
+    <div class="about">
+        <div class="container">
+            <h1>About Us</h1>
+            <p>Welcome to our blog! We are dedicated to sharing insightful content on various topics, including technology, lifestyle, and education.</p>
+
+            <h2>Our Mission</h2>
+            <p>We strive to provide high-quality, engaging, and informative content that adds value to our readers' lives.</p>
+
+            <h2>Why Choose Us?</h2>
+            <ul>
+                <li style="list-style: none;">✅ Expert-driven articles</li>
+                <li style="list-style: none;">✅ Latest industry trends</li>
+                <li style="list-style: none;">✅ User-friendly content</li>
+            </ul>
+        </div>
+    </div>
+    <script src="{% static '/assets/js/script.js' %}"></script>
+</body>
+{%include "footer.html"%}
+</html>

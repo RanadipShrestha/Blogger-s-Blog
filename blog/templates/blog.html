@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Blog Hub</title>
+    <link rel="stylesheet" href="{% static 'assets/css/blog.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% include "header.html" %}
+</head>
+<body>
+
+<div class="container">
+    <div class="search-bar">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search articles...">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div class="flex justify-center">
+            <button onclick="showPostModal()" name="create_post"  class=" create-blog text-center flex items-center py-3 px-6 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 transition duration-300">
+              ➕ Create Post
+            </button>
+        </div>
+        <div id="postModal" class="modal-overlay" style="display:none; ">
+            <div class="modal-content">
+              <h2 class="modal-title">Create a New Post</h2>
+          
+              <form method="POST" enctype="multipart/form-data" class="modal-form">
+                {% csrf_token %}
+          
+                <div class="form-group">
+                  <label for="title">Post Title</label>
+                  <input type="text" name="title" id="title" placeholder="Enter title" required>
+                </div>
+          
+                <div class="form-group">
+                  <label for="photo">Post Image</label>
+                  <input type="file" name="image" id="photo" required>
+                </div>
+          
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <input type="text" name="description" id="description" placeholder="Enter description" required>
+                </div>
+          
+                <div class="form-group">
+                  <label for="category">Category</label>
+                  <select name="categorys" id="category" required>
+                    <option value="">Select a category</option>
+                    {% for category in categorys %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+          
+                <div class="form-group">
+                  <label for="content">Content</label>
+                  <textarea name="content" id="content" rows="4" placeholder="Write your content here..." required></textarea>
+                </div>
+          
+                <div class="form-actions">
+                  <button type="submit" name="create_post" class="btn-primary">Create Post</button>
+                  <button type="button" onclick="hidePostModal()" class="btn-cancel">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+    </div>
+
+    <div class="blog-sections">
+        <div class="main-content">
+            <section class="blog-section" id="all">
+                <h2 class="section-title">
+                    {% if current_category %}
+                        {{ current_category.name }} Articles
+                    {% else %}
+                        All Articles
+                    {% endif %}
+                </h2>
+                
+                {% for article in articles %}
+                <div class="blog-post">
+                    <img class="blog-img" src="{{ article.image.url }}" alt="Blog Image">
+                    <p class="content">{{ article.description }}</p>
+                    <a href="{% url 'article_detail' article.id %}" class="readmore">Read more</a>
+                    <div class="like-comment">
+                        <div class="like">
+                            <form method="POST" action="{% if current_category %}{% url 'blog_with_slug' slug=current_category.slug %}{% else %}{% url 'blog' %}{% endif %}" id="like-form-{{ article.id }}">
+                                {% csrf_token %}
+                                <input type="hidden" name="article_id" value="{{ article.id }}">
+                                <button type="button" class="like-btn" data-article-id="{{ article.id }}">
+                                    <i class="fas fa-heart" {% if request.user in article.likes.all %} style="color: red;" {% else %} style="color: gray;" {% endif %}></i>
+                                    <span id="like-count">{{ article.like_count }}</span>
+                                </button>
+
+                            </form>
+                        </div>
+                        <div class="author-time">
+                            <p>Author: {{ article.author }}</p>
+                            <p>Date: {{ article.date }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+            
+        </div>
+        <section class="sidebar">
+            <h3>Categories</h3>
+            <h1 class="All-Post" style="text-decoration: none;"><a href="{% url 'blog' %}" class="All-Post">All</a></h1>
+            {% for category in categorys%}
+            <ul class="category-list">
+                <li class="category-item"> 
+                    <h4 class="All-Post" style="text-decoration: none;">
+                        <a href="{% url 'category_blog' category.slug %}" class="All-Post"> {{ category.name }} </a>
+                    </h4>
+                </li> 
+            </ul>
+            {%endfor%}
+        </section>
+    </div>
+</div>
+
+<script src="{% static 'assets/js/script.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Handle like button click
+        $('.like-btn').click(function () {
+            var button = $(this);
+            var articleId = button.data('article-id');
+            var form = $('#like-form-' + articleId);
+
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (response) {
+                    // Update like icon color
+                    if (response.liked) {
+                        button.find('i').css('color', 'red');
+                    } else {
+                        button.find('i').css('color', 'gray');
+                    }
+
+                    // Update like count
+                    // Here we find the like count element and update it
+                    var likeCountElement = button.siblings('.like-count');
+                    likeCountElement.text(response.like_count);
+
+                    // Optionally: If you want the page to automatically update the like count
+                    // every time a user interacts, you could trigger a refresh after a delay
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000); // 1-second delay for auto-refresh
+                }
+            });
+        });
+    });
+
+
+    function hidePostModal() {
+        document.getElementById("postModal").style.display = "none";
+      }
+      
+      function showPostModal() {
+        document.getElementById("postModal").style.display = "flex";
+      }
+
+
+</script>
+
+{% include "footer.html" %}
+</body>
+</html>

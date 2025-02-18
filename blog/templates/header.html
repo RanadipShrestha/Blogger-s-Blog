@@ -1,0 +1,28 @@
+{% load static %}
+{% load custom_filters %}
+<link rel="stylesheet" href="{% static '/assets/css/header.css '%}">
+
+<header>
+    <div class="logo"><img src="{% static '/assets/img/logo.png' %}" alt="Logo"></div>
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'blog' %}">Blog</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="header-buttons">
+        <button id="theme-toggle">🌙</button>
+        {% if request.user.is_authenticated %}
+        <button id='drop-down'>{{request.user.username|first_letter}}</button>
+        <div class="drop-down-menu">
+            <a href="{% url 'logout'%}">Logout</a>
+        </div>
+        {% else %}
+        <a href="{% url 'login' %}">
+            <button class="login">Login</button>
+        </a>
+        {% endif %}
+    </div>
+</header>

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Page</title>
+    <link rel="stylesheet" href="{%static '/assets/css/style.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <div class="recent">
+        <h1 class="recent-title">Recent Posts</h1>
+        <main id="blog-container">
+            {% if recent_posts %}
+                {% for post in recent_posts %}
+                    <div class="blog-post">
+                        <img src="{{ post.image.url }}" alt="Recent Post Image">
+                        <p class="content">{{ post.description }}</p>
+                        <a href="{% url 'article_detail' post.id %}" class="readmore">Read more</a>
+                        <div class="like-comment">
+                        
+                            <div class="auther-time">
+                                <p><strong>Author:</strong> {{ post.author.username }}</p>
+                                <p><strong>Date:</strong> {{ post.date }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No recent posts available.</p>
+            {% endif %}
+        </main>
+    </div>
+    
+    <script src="{%static '/assets/js/script.js'%}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.like-btn').click(function () {
+                var button = $(this);
+                var articleId = button.data('article-id');
+                var form = $('#like-form-' + articleId);
+    
+                $.ajax({
+                    type: 'POST',
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function (response) {
+
+                        if (response.liked) {
+                            button.find('i').css('color', 'red');
+                        } else {
+                            button.find('i').css('color', 'gray');
+                        }
+
+                        var likeCountElement = button.siblings('.like-count');
+                        likeCountElement.text(response.like_count);
+
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000); 
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+{% include "footer.html" %}
+</html>

@@ -1,0 +1,125 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.title }}</title>
+    <link rel="stylesheet" href="{% static 'assets/css/article_detail.css' %}">
+</head>
+<body>
+    {% include "header.html" %}
+    
+    <div class="article-container">
+        <div>
+            <h1 id="article-title">{{ article.title }}</h1></div>
+        <img src="{{ article.image.url }}" alt="{{ article.title }}">
+        <p><strong>Category:</strong> {{ article.categorys.name }}</p>
+        <p><strong>Author:</strong> {{ article.author.username }}</p>
+        <p><strong>Date:</strong> {{ article.date }}</p>
+        <p class="content">{{ article.content }}</p>
+        <div class="comment-section">
+            <div id="commentBtn" class="comment-btn">
+                Comment
+                <div class="comment-form"> <!-- Removed duplicate id -->
+                    <form method="POST" id="commentForm">
+                        {% csrf_token %}
+                        <input id="commentText" name="content" class="comment-text" placeholder="Write your comment...">
+                        <button type="submit" class="post-btn" name="post_comment">Post Comment</button>
+                    </form>
+                </div>
+            </div>
+        
+            
+        
+            <!-- This is the space where comments will dynamically load -->
+            <div id="commentsList" class="comments-list">
+                {% for comment in comments %}
+                <div class="comment">
+                    <p>{{ comment.content }}</p>
+                    <div class="comment-meta">
+                        <span class="comment-username">{{ comment.user.username }}</span>
+                        <span class="comment-timestamp">{{ comment.date|custom_time_since }}</span>
+                    </div>
+                </div>
+                {% empty %}
+                <p id="noComments" class="no-comments">Be the first to comment!</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'blog' %}" class="back-link"> Back to Blog</a>
+    <script src="{%static '/assets/js/script.js'%}"></script>
+    {% include "footer.html" %}
+    <script>
+        const commentBtn = document.getElementById('commentBtn');
+        const commentForm = document.getElementById('commentForm');
+        const postBtn = document.getElementById('postBtn');
+        const commentText = document.getElementById('commentText');
+        const commentsList = document.getElementById('commentsList');
+
+        commentBtn.addEventListener('click', () => {
+            commentForm.classList.toggle('hidden');
+        });
+
+        postBtn.addEventListener('click', () => {
+            const commentContent = commentText.value.trim();
+            if (commentContent) {
+                // Create a new comment element
+                const newComment = document.createElement('div');
+                newComment.classList.add('comment');
+                newComment.textContent = commentContent;
+
+                // Append the new comment to the comment list
+                commentsList.appendChild(newComment);
+
+                // Clear the textarea and hide the form
+                commentText.value = '';
+                commentForm.classList.add('hidden');
+            }
+        });
+
+            document.querySelector('.comment-form').addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+        
+                let form = this;
+                let content = form.querySelector('.comment-input').value;
+        
+                let formData = new FormData();
+                formData.append('content', content);
+                formData.append('csrfmiddlewaretoken', form.querySelector('[name="csrfmiddlewaretoken"]').value);
+        
+                fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Add the new comment dynamically
+                        const commentList = document.getElementById('comments-list');
+                        const newComment = document.createElement('div');
+                        newComment.classList.add('comment');
+                        newComment.innerHTML = 
+                            <p>${data.username}: ${data.content}</p>
+                            <span>${data.created_at}</span>
+                        ;
+                        commentList.appendChild(newComment);
+                        form.querySelector('.comment-input').value = '';  // Clear the input field
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+
+
+
+            document.getElementById('commentBtn').addEventListener('click', function() {
+                document.getElementById('commentForm').classList.toggle('active');
+            });
+
+    </script>
+</body>
+
+</html>

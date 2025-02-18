@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Website!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+        }
+        .email-header {
+            text-align: center;
+            background-color: #2d3e50;
+            padding: 10px;
+            color: #ffffff;
+        }
+        .email-body {
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
+        }
+        .email-footer {
+            text-align: center;
+            font-size: 12px;
+            color: #888888;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Welcome, {{ username }}</h1>
+        </div>
+        <div class="email-body">
+            <p>Hello {{ username }},</p>
+            <p>{{ message }}</p>
+            <p>We are excited to have you on board. Feel free to explore our platform!</p>
+        </div>
+        <div class="email-footer">
+            <p>Best regards,</p>
+            <p>The Website Team</p>
+        </div>
+    </div>
+
+</body>
+</html>
