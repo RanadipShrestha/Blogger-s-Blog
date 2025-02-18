@@ -1,0 +1,87 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f9f9f9; 
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+}
+
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.about {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.about h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.about h2 {
+    font-size: 2rem;
+    margin-top: 40px;
+}
+
+.about p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 10px auto;
+    line-height: 1.6;
+}
+
+
+
+/* Dark Mode - Headings */
+.dark-mode .about h1, .dark-mode .about h2 {
+    color: #ffcc66; /* Highlight color for headings in dark mode */
+}
+
+/* Dark Mode - Paragraphs */
+.dark-mode .about p {
+    color: #ddd; /* Lighter text for paragraphs in dark mode */
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .about {
+        padding: 30px 15px;
+    }
+
+    .about h1 {
+        font-size: 2rem;
+    }
+
+    .about h2 {
+        font-size: 1.8rem;
+    }
+
+    .about p {
+        font-size: 1rem;
+    }
+
+    .container ul li {
+        font-size: 1rem;
+    }
+}

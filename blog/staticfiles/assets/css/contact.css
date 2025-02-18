@@ -1,0 +1,256 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.wrapper {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Accordion Section */
+.accordion-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.accordion-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #2d3436;
+}
+
+
+#faq {
+    text-align: center; /* Centers the text inside the <h2> */
+}
+
+
+.accordion-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.accordion-item.active {
+    border-color: #007bff;
+}
+
+.accordion-header {
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+    transition: background-color 0.3s;
+}
+
+.accordion-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3436;
+}
+
+.accordion-header i {
+    transition: transform 0.3s ease;
+}
+
+.accordion-item.active .accordion-header i {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    padding: 0 1.25rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+}
+
+.accordion-item.active .accordion-content {
+    padding: 1.25rem;
+    max-height: 500px;
+}
+
+/* Contact Section */
+.contact-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.input-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 12px;
+}
+
+.input-row input {
+    flex: 1;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%; /* Makes both input and textarea take up the full width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.send-btn {
+    align-self: flex-start;
+    padding: 0.8rem 2rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    margin-top: 12px;
+}
+
+.send-btn:hover {
+    background: #0056b3;
+}
+
+/* Contact Info */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-left: 2rem;
+    border-left: 1px solid #e0e0e0;
+}
+
+.info-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-box h3 {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #2d3436;
+}
+
+.info-box p {
+    margin: 0;
+    color: #666;
+}
+
+/* Dark Mode Overrides */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .accordion-container,
+body.dark-mode .contact-section {
+    background-color: #2d2d2d;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .accordion-item,
+body.dark-mode .contact-form input,
+body.dark-mode .contact-form textarea,
+body.dark-mode .contact-info {
+    border-color: #404040;
+}
+
+body.dark-mode .accordion-header,
+body.dark-mode .accordion-item {
+    background-color: #2d2d2d;
+}
+
+body.dark-mode .accordion-header h3,
+body.dark-mode .accordion-container h2,
+body.dark-mode .info-box h3 {
+    color: #f8f9fa;
+}
+
+body.dark-mode .contact-form input,
+body.dark-mode .contact-form textarea {
+    background-color: #404040;
+    color: #fff;
+}
+
+body.dark-mode .contact-form input::placeholder,
+body.dark-mode .contact-form textarea::placeholder {
+    color: #b0b0b0;
+}
+
+body.dark-mode .info-box p {
+    color: #b0b0b0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-section {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 1.5rem;
+    }
+
+    .contact-info {
+        padding-left: 0;
+        border-left: none;
+        padding-top: 2rem;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .input-row {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .accordion-container {
+        padding: 1.5rem;
+    }
+
+    .wrapper {
+        margin: 1rem auto;
+    }
+}
+
+
+.success-message {
+    color: green;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}

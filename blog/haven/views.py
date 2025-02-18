@@ -12,7 +12,7 @@ from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
-
+from django.http import HttpResponseForbidden
 
 
 def index(request):
@@ -26,6 +26,8 @@ def index(request):
 
 def article_detail(request, id):
     article = get_object_or_404(Article, id=id)
+    articles = Article.objects.all()
+    is_author = article.author==request.user
     comments = Comment.objects.all().filter(article=article)
     forms = CommentForm()
     if request.method == "POST":
@@ -46,7 +48,7 @@ def article_detail(request, id):
             return redirect("article_detail", id=id)
         else:
             forms = CommentForm()
-    return render(request, "article_detail.html", {"article": article, "comments": comments, "forms": forms}  )
+    return render(request, "article_detail.html", {"article": article, "comments": comments, "forms": forms, "articles": articles, "is_author": is_author}  )
 
 @login_required(login_url="login")
 def blog(request, slug=None):
@@ -165,3 +167,13 @@ def registerPage(request):
 def logoutPage(request):
     auth.logout(request)
     return redirect("index")
+
+
+@login_required(login_url="login")
+def delete_post(request, id):
+    article = get_object_or_404(Article, id=id)
+    if article.author == request.user:
+        article.delete()
+        return redirect("blog")
+    else:
+        return redirect("blog", id=id)

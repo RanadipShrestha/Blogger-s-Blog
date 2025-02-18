@@ -18,4 +18,5 @@ urlpatterns = [
     path('logout/', views.logoutPage, name="logout"),
     
     path('blog/<slug:slug>/', views.blog, name="blog_with_slug"),
+    path('blog/<int:id>/delete/', views.delete_post, name="delete_post"),
 ]
