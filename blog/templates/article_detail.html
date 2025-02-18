@@ -54,7 +54,7 @@
                 {% if is_author %}
                 <form action="{% url 'delete_post' article.id %}" method="POST">
                 {% csrf_token %}
-                <button type="submit">Delete</button>
+                <button type="submit"  class="back-link">Delete</button>
                 </form>
                 {% endif %}
             {% endif %}
