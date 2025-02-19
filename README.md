@@ -84,7 +84,7 @@ Create a .env file in the project folder and add:
 
     EMAIL_HOST_PASSWORD = your password
   
-7. set up DEBUG = True
+7. set up DEBUG = True:
 Change DEBUG = False to DEBUG = True in setting.py
 
 8. Apply database migrations
