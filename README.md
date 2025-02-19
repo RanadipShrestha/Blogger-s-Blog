@@ -84,8 +84,8 @@ Create a .env file in the project folder and add:
 
     EMAIL_HOST_PASSWORD = your password
   
-7. set up DEBUG = True:
-Change DEBUG = False to DEBUG = True in setting.py
+7. set up DEBUG = True
+    Change DEBUG = False to DEBUG = True in setting.py
 
 8. Apply database migrations
 ```bash
@@ -100,6 +100,6 @@ Change DEBUG = False to DEBUG = True in setting.py
   python manage.py runserver
 ```
 11. Access the application
-Open your browser and go to http://127.0.0.1:8000
+    Open your browser and go to http://127.0.0.1:8000
 
 
