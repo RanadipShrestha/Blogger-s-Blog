@@ -114,7 +114,6 @@ def contact(request):
         Feedback.objects.create(name=name, email=email, subject=subject, message=message)
         messages.success(request, "Your message has been sent successfully!")
         return redirect("contact")  # Redirects to the `contact` view
-
     return render(request, "contact.html", {"faqs": faqs})
 
 def loginPage(request):
