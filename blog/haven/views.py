@@ -87,9 +87,6 @@ def blog(request, slug=None):
             post = post_form.save(commit=False)
             post.author = request.user
             post.save()
-            # if slug:
-            #     return redirect('blog_with_slug', slug=slug)
-            # else:
             return redirect('blog')            
 
     context = {
